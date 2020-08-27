@@ -10,12 +10,12 @@ import {
 } from '@chakra-ui/core';
 import Button from '@chakra-ui/core/dist/Button';
 
-const CustomModal = ({ isOpen = false, onClose = (f) => f, body }) => {
+const CustomModal = ({ isOpen = false, onClose = (f) => f, body, title }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Modal Title</ModalHeader>
+        <ModalHeader>{title}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>{body}</ModalBody>
       </ModalContent>
