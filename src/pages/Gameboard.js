@@ -14,10 +14,10 @@ const NEW_GAME = gql`
 `;
 
 const DIRECTIONS = {
-  ArrowUp: 'Up',
-  ArrowDown: 'Down',
-  ArrowLeft: 'Left',
-  ArrowRight: 'Right',
+  ArrowUp: { to: 'Up' },
+  ArrowDown: { to: 'Down' },
+  ArrowLeft: { to: 'Left' },
+  ArrowRight: { to: 'Right' },
 };
 
 const Gameboard = () => {
@@ -26,10 +26,9 @@ const Gameboard = () => {
   const [score, setScore] = useState(0);
 
   useEffect(() => {
-    console.log('Run');
     const handler = (event) => {
       const direction = DIRECTIONS[event.key];
-      setDirection(direction);
+      setDirection({ ...direction });
     };
     window.addEventListener('keydown', handler);
 

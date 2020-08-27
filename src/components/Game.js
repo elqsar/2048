@@ -2,6 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { Box, Flex } from '@chakra-ui/core';
 import { gql, useMutation } from '@apollo/client';
 
+const COLORS = {
+  0: 'orange.50',
+  2: 'orange.100',
+  4: 'orange.200',
+  8: 'orange.300',
+  16: 'orange.400',
+  32: 'orange.500',
+  64: 'orange.600',
+  128: 'orange.700',
+  256: 'orange.800',
+  512: 'orange.900',
+};
+
 const PROCESS_GAME = gql`
   mutation ProcessGame($game: GameInput!) {
     processGame(game: $game) {
@@ -18,13 +31,12 @@ const Game = ({ gameState: game, direction, onNewScore }) => {
 
   useEffect(() => {
     if (direction) {
-      console.log('Run');
       processGame({
         variables: {
           game: {
             state: gameState.state,
             score: gameState.score,
-            direction,
+            direction: direction.to,
           },
         },
       })
@@ -45,7 +57,7 @@ const Game = ({ gameState: game, direction, onNewScore }) => {
               return (
                 <Box
                   key={index}
-                  bg="orange.50"
+                  bg={COLORS[field]}
                   p={12}
                   w="2rem"
                   border="2px solid #fff"
