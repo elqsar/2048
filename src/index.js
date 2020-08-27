@@ -5,14 +5,11 @@ import { createBrowserHistory } from 'history';
 
 import './index.css';
 import Routes from './Routes';
-
-const history = createBrowserHistory();
+import App from './App';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router history={history}>
-      <Routes />
-    </Router>
+    <App />
   </React.StrictMode>,
   document.getElementById('root'),
 );
