@@ -5,6 +5,8 @@ import CustomModal from '../components/Modal';
 import Registration from '../components/Registration';
 import Login from '../components/Login';
 import { UserContext } from '../libs/authentication';
+import Leaderboard from '../components/Leaderboard';
+import { useHistory } from 'react-router';
 
 const registrationConfig = {
   title: 'Registration completed',
@@ -40,9 +42,8 @@ const ModalContent = {
 const Home = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
-  const { token } = useContext(UserContext);
-
-  console.log('Token', token);
+  const { profile } = useContext(UserContext);
+  const history = useHistory();
 
   const onSuccess = (config) => () => {
     onClose();
@@ -60,17 +61,31 @@ const Home = () => {
     onOpen();
   };
 
+  const onStartNewGame = (event) => {
+    event.preventDefault();
+    history.push('/game');
+  };
+
   return (
     <>
       <Flex flexDirection="column" w="100%" h="90vh" alignItems="center">
-        <Box flex={1}>
+        <Box>
           <Text as="span" fontFamily="Source Sans Pro" fontSize="2rem" fontWeight={400}>
             2048
           </Text>
         </Box>
+        <Flex flex={1} flexDirection="column" alignItems="center" w="100%">
+          <Text as="h3">Leaderboard</Text>
+          <Leaderboard />
+        </Flex>
         <Flex h="6rem" w="100%" justifyContent="center">
-          {token ? (
-            <Button variantColor="green">New Game</Button>
+          {profile?.token ? (
+            <Flex flexDirection="column">
+              <Text as="p">{`Hello ${profile?.item?.name}, nice to see you again!`}</Text>
+              <Button variantColor="green" onClick={onStartNewGame}>
+                New Game
+              </Button>
+            </Flex>
           ) : (
             <ButtonGroup spacing={4}>
               <Button onClick={onOpenModal('login')} variantColor="blue">

@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
+import Gameboard from './pages/Gameboard';
 
 const Routes = () => {
   useEffect(() => {
@@ -12,8 +13,15 @@ const Routes = () => {
 
   return (
     <Switch>
-      <Route exact path="/" component={Home} />
-      <Route path="*" component={NotFound} />
+      <Route exact path="/">
+        <Home />
+      </Route>
+      <Route exact path="/game">
+        <Gameboard />
+      </Route>
+      <Route>
+        <NotFound />
+      </Route>
     </Switch>
   );
 };

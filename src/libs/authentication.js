@@ -1,5 +1,6 @@
 import React, { createContext, useState } from 'react';
 import { gql, useMutation } from '@apollo/client';
+import { useLocalStorageState } from 'ahooks';
 
 export const UserContext = createContext({});
 
@@ -25,7 +26,7 @@ const LOGOUT_USER = gql`
 export const UserContextProvider = ({ children }) => {
   const [login, { data: loginResult }] = useMutation(LOGIN_USER);
   const [logout, { data: logoutResult }] = useMutation(LOGOUT_USER);
-  const [token, setToken] = useState(null);
+  const [profile, setProfile] = useLocalStorageState('profile', null);
 
   const onLogin = ({ email, password }) => {
     login({
@@ -38,7 +39,7 @@ export const UserContextProvider = ({ children }) => {
         const {
           data: { authenticateUserWithPassword },
         } = response;
-        setToken(authenticateUserWithPassword.token);
+        setProfile(authenticateUserWithPassword);
       })
       .catch(console.error);
   };
@@ -46,20 +47,17 @@ export const UserContextProvider = ({ children }) => {
   const onLogout = () => {
     logout()
       .then((response) => {
-        setToken(null);
+        setProfile(null);
       })
       .catch(console.error);
   };
-
-  const isAuthenticated = () => token;
 
   return (
     <UserContext.Provider
       value={{
         onLogin,
         onLogout,
-        token,
-        isAuthenticated,
+        profile,
       }}
     >
       {children}
