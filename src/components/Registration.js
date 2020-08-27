@@ -37,19 +37,18 @@ const Registration = ({ onSuccess }) => {
     <Flex flexDirection="column">
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormControl>
-          <Input name="firstName" placeholder="First Name" w="15rem" m={4} ref={register()} />
-          <Input name="lastName" placeholder="Last Name" w="15rem" m={4} ref={register()} />
-          <Input name="email" placeholder="Email" w="15rem" m={4} ref={register()} />
+          <Input name="firstName" placeholder="First Name" mt={2} ref={register()} />
+          <Input name="lastName" placeholder="Last Name" mt={2} ref={register()} />
+          <Input name="email" placeholder="Email" mt={2} ref={register()} />
           <Input
             name="password"
             type="password"
             placeholder="Create password"
-            w="15rem"
-            m={4}
+            mt={2}
             ref={register()}
           />
         </FormControl>
-        <Button type="submit" variantColor="blue" isLoading={formState.isSubmitting} ml={4}>
+        <Button type="submit" variantColor="blue" isLoading={formState.isSubmitting} mt={4} mb={4}>
           Register
         </Button>
       </form>

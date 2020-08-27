@@ -19,10 +19,18 @@ const Login = ({ onSuccess }) => {
     <Flex>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormControl>
-          <Input name="email" placeholder="Email" ref={register()} m={2} />
-          <Input name="password" placeholder="Password" type="password" ref={register()} m={2} />
+          <Flex>
+            <Input name="email" placeholder="Email" ref={register()} />
+            <Input name="password" placeholder="Password" type="password" ref={register()} ml={2} />
+          </Flex>
         </FormControl>
-        <Button variantColor="blue" type="submit" m={2} isLoading={formState.isSubmitting}>
+        <Button
+          w="8rem"
+          variantColor="blue"
+          type="submit"
+          mt={4}
+          isLoading={formState.isSubmitting}
+        >
           Login
         </Button>
       </form>
