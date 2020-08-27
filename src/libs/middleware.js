@@ -1,9 +1,10 @@
 import { ApolloLink } from '@apollo/client';
 
 export const authMiddleware = new ApolloLink((operation, forward) => {
+  const { token } = JSON.parse(localStorage.getItem('profile')) || {};
   operation.setContext({
     headers: {
-      authorization: `Bearer ${JSON.parse(localStorage.getItem('profile'))?.token}`,
+      authorization: `Bearer ${token}`,
     },
   });
 

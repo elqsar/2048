@@ -1,19 +1,7 @@
 import React, { useContext } from 'react';
 import { Button, Flex, FormControl, Input } from '@chakra-ui/core';
 import { useForm } from 'react-hook-form';
-import { gql, useMutation } from '@apollo/client';
 import { UserContext } from '../libs/authentication';
-
-const LOGIN_USER = gql`
-  mutation Login($email: String!, $password: String!) {
-    authenticateUserWithPassword(email: $email, password: $password) {
-      token
-      item {
-        name
-      }
-    }
-  }
-`;
 
 const Login = ({ onSuccess }) => {
   const { handleSubmit, errors, register, formState } = useForm();

@@ -13,6 +13,8 @@ const COLORS = {
   128: 'orange.700',
   256: 'orange.800',
   512: 'orange.900',
+  1024: 'red.800',
+  2048: 'red.900',
 };
 
 const PROCESS_GAME = gql`
@@ -25,8 +27,21 @@ const PROCESS_GAME = gql`
   }
 `;
 
-const Game = ({ gameState: game, direction, onNewScore }) => {
+const CREATE_SCORE = gql`
+  mutation CreateScore($data: ScoreCreateInput!) {
+    createScore(data: $data) {
+      id
+      player {
+        name
+      }
+      score
+    }
+  }
+`;
+
+const Game = ({ gameState: game, direction, onNewScore, onGameEnd }) => {
   const [processGame, { loading, error, data }] = useMutation(PROCESS_GAME);
+  const [createScore] = useMutation(CREATE_SCORE);
   const [gameState, setGameState] = useState(game);
 
   useEffect(() => {
@@ -43,29 +58,46 @@ const Game = ({ gameState: game, direction, onNewScore }) => {
         .then((response) => {
           setGameState(response?.data?.processGame);
           onNewScore(response?.data?.processGame?.score);
+          if (response?.data?.processGame?.finished) {
+            createScore({
+              variables: {
+                data: {
+                  score: gameState.score,
+                },
+              },
+            })
+              .then(() => {
+                onGameEnd();
+                setGameState(null);
+              })
+              .catch(console.error);
+          }
         })
         .catch(console.error);
     }
   }, [direction]);
 
   return (
-    <Flex flexDirection="column" w="10rem" alignItems="center">
+    <Flex flexDirection="column" alignItems="center">
       {gameState?.state?.map((state, index) => {
         return (
-          <Flex key={index}>
+          <Flex key={index} justifyContent="center">
             {state.map((field, index) => {
               return (
-                <Box
+                <Flex
                   key={index}
                   bg={COLORS[field]}
                   p={12}
-                  w="2rem"
+                  w="8rem"
+                  h="8rem"
                   border="2px solid #fff"
                   fontWeight={700}
                   fontSize="2rem"
+                  justifyContent="center"
+                  alignItems="center"
                 >
                   {field}
-                </Box>
+                </Flex>
               );
             })}
           </Flex>

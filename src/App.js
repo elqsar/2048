@@ -2,7 +2,7 @@ import React from 'react';
 import Routes from './Routes';
 import { BrowserRouter } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
-import { ThemeProvider, theme } from '@chakra-ui/core';
+import { ThemeProvider, theme, CSSReset } from '@chakra-ui/core';
 import { ApolloProvider } from '@apollo/client';
 
 import client from './libs/apollo';
@@ -14,6 +14,7 @@ const App = () => {
   return (
     <BrowserRouter history={history}>
       <ThemeProvider theme={theme}>
+        <CSSReset />
         <ApolloProvider client={client}>
           <UserContextProvider>
             <Routes />

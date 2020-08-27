@@ -5,7 +5,7 @@ import sortBy from 'lodash.sortby';
 
 const ALL_SCORES = gql`
   {
-    allScores(sortBy: score_DESC) {
+    allScores(sortBy: score_DESC, first: 10) {
       player {
         name
       }
@@ -30,7 +30,7 @@ const Leaderboard = () => {
       {data?.allScores?.map((score, index) => {
         return (
           <List key={score?.player?.name + index}>
-            <ListItem>
+            <ListItem fontWeight={700} fontSize="1.2rem">
               {index + 1} {score?.player?.name} {score?.score}
             </ListItem>
           </List>

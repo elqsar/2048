@@ -21,7 +21,7 @@ const DIRECTIONS = {
 };
 
 const Gameboard = () => {
-  const { error, data, loading } = useQuery(NEW_GAME);
+  const { error, data, loading, refetch } = useQuery(NEW_GAME);
   const [direction, setDirection] = useState(null);
   const [score, setScore] = useState(0);
 
@@ -49,9 +49,14 @@ const Gameboard = () => {
     setScore(score);
   };
 
+  const onGameEnd = () => {
+    setDirection(null);
+    refetch().catch(console.error);
+  };
+
   return (
-    <Flex w="100%" h="100vh" justifyContent="center">
-      <Flex flexDirection="column" alignItems="center">
+    <Flex w="100vw" h="100vh" justifyContent="center">
+      <Flex flexDirection="column" w="100%" alignItems="center">
         <Flex alignItems="center" h="6rem">
           <Text as="h1" fontSize="4rem">
             2048
@@ -83,11 +88,16 @@ const Gameboard = () => {
         </Flex>
         <Flex alignItems="center" m={2}>
           <Box m={2}>Join the numbers and get to 2048 tiles!</Box>
-          <Button m={2} variantColor="green">
+          <Button m={2} variantColor="green" onClick={onGameEnd} variant="solid">
             New Game
           </Button>
         </Flex>
-        <Game gameState={data?.newGame} direction={direction} onNewScore={onNewScore} />
+        <Game
+          gameState={data?.newGame}
+          direction={direction}
+          onNewScore={onNewScore}
+          onGameEnd={onGameEnd}
+        />
       </Flex>
     </Flex>
   );
